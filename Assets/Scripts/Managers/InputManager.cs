@@ -5,7 +5,6 @@ using UnityEngine.Events;
 
 public class InputManager : MonoBehaviour
 {
-    [HideInInspector] public static InputManager Instance;
     [HideInInspector] public UnityEvent onTap;
 
     private void Update()
@@ -16,22 +15,9 @@ public class InputManager : MonoBehaviour
         }
     }
 
-    private void Awake()
-    {
-        OnAwake();
-    }
-    
     private void Start()
     {
-        OnAwake();
-        onTap.AddListener(GameManager.Instance.onStartedGame.Invoke);
+        onTap.AddListener(GameManager.Instance.OnStartedGame.Invoke);
     }
-
-    private void OnAwake()
-    {
-        if (Instance == null)
-        {
-            Instance = this;
-        }
-    }
+    
 }

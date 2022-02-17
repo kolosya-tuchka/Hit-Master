@@ -1,14 +1,10 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
 public class PlayerAnimations : MonoBehaviour
 {
-    [SerializeField] private Animator animator;
-    [SerializeField] private Player player;
-
-    void Update()
+    [SerializeField] private Animator _animator;
+    public void SetRunningState(bool isRunning)
     {
-        animator.SetBool("isRunning", player.navAgent.velocity != Vector3.zero);
+        _animator.SetBool("isRunning", isRunning);
     }
 }

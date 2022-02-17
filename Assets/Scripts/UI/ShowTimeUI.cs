@@ -5,10 +5,11 @@ using TMPro;
 
 public class ShowTimeUI : MonoBehaviour
 {
-    [SerializeField] private TextMeshProUGUI time;
+    [SerializeField] private Timer _timer; 
+    [SerializeField] private TextMeshProUGUI _timeText;
 
     void Update()
     {
-        time.text = TimeManager.FormatTime(TimeManager.Instance.time);
+        _timeText.text = Timer.FormatTime(_timer.Time);
     }
 }

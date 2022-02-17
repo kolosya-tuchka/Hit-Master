@@ -4,8 +4,8 @@ using UnityEngine;
 
 public class Bullet : MonoBehaviour
 {
-    public BulletPool pool;
-    public float speed
+    public BulletPool Pool;
+    public float Speed
     {
         get
         {
@@ -16,7 +16,7 @@ public class Bullet : MonoBehaviour
             _speed = value;
         }
     }
-    public float damage
+    public float Damage
     {
         get
         {
@@ -27,7 +27,7 @@ public class Bullet : MonoBehaviour
             _damage = value;
         }
     }
-    public Rigidbody rb
+    public Rigidbody Rb
     {
         get
         {

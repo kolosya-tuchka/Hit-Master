@@ -5,9 +5,9 @@ using UnityEngine.Events;
 
 public class Stage : MonoBehaviour
 {
-    [HideInInspector] public UnityEvent onCompletedStage, onStartedStage;
-    public int enemyCount { get; private set; }
-    public Transform waypoint
+    [HideInInspector] public UnityEvent OnCompletedStage, OnStartedStage;
+    public int EnemyCount { get; private set; }
+    public Transform Waypoint
     {
         get
         {
@@ -19,29 +19,29 @@ public class Stage : MonoBehaviour
         }
     }
 
-    [SerializeField] private Enemy[] enemies;
+    [SerializeField] private Enemy[] _enemies;
 
     [SerializeField] private Transform _waypoint;
 
     private void Start()
     {
-        onStartedStage.AddListener(ActivateEnemies);
-        onCompletedStage.AddListener(GameManager.Instance.NextStage);
-        enemyCount = enemies.GetLength(0);
+        OnStartedStage.AddListener(ActivateEnemies);
+        OnCompletedStage.AddListener(GameManager.Instance.NextStage);
+        EnemyCount = _enemies.GetLength(0);
     }
 
     public void RemoveEnemy()
     {
-        --enemyCount;
-        if (enemyCount == 0)
+        --EnemyCount;
+        if (EnemyCount == 0)
         {
-            onCompletedStage.Invoke();
+            OnCompletedStage.Invoke();
         }
     }
 
     private void ActivateEnemies()
     {
-        foreach (var e in enemies)
+        foreach (var e in _enemies)
         {
             e.Activate();
         }

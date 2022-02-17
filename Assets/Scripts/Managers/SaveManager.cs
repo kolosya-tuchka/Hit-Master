@@ -1,37 +1,25 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 using System.Runtime.Serialization.Formatters.Binary;
 using System.IO;
 
 public class SaveManager : MonoBehaviour
 {
-    [HideInInspector] public static SaveManager Instance;
-    private string filePath;
+    static readonly string FilePath = Application.persistentDataPath;
 
-    void Awake()
-    {
-        if (Instance == null)
-        {
-            Instance = this;
-        }
-        filePath = Application.persistentDataPath;
-    }
-
-    public void SaveRecord(float record)
+    public static void SaveRecordTime(float record)
     {
         BinaryFormatter bf = new BinaryFormatter();
-        FileStream fs = new FileStream(filePath + "/record.time", FileMode.Create);
+        FileStream fs = new FileStream(FilePath + "/record.time", FileMode.Create);
         bf.Serialize(fs, record);
         fs.Close();
     }
 
-    public float LoadRecord()
+    public static float LoadRecordTime()
     {
-        if (!File.Exists(filePath + "/record.time")) return float.MaxValue;
+        if (!File.Exists(FilePath + "/record.time")) return float.MaxValue;
 
         BinaryFormatter bf = new BinaryFormatter();
-        FileStream fs = new FileStream(filePath + "/record.time", FileMode.Open);
+        FileStream fs = new FileStream(FilePath + "/record.time", FileMode.Open);
         float record = (float)bf.Deserialize(fs);
         fs.Close();
         return record;

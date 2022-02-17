@@ -2,30 +2,28 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Events;
+using UnityEngine.Serialization;
 
 public class GameManager : MonoBehaviour
 {
-    [HideInInspector] public static GameManager Instance;
+    public static GameManager Instance;
 
     public const int UILayer = 5;
-    [HideInInspector] public UnityEvent onFinishedGame, onStartedGame;
-    public float record;
+    [HideInInspector] public UnityEvent OnFinishedGame, OnStartedGame;
 
+    [SerializeField] private InputManager _inputManager;
     [SerializeField] private Player player;
+    [SerializeField] private Timer timer;
     
-    public Stage[] stages
+    public Stage[] Stages
     {
         get
         {
             return _stages;
         }
-        private set
-        {
-            _stages = value;
-        }
     }
-    public int curStage { get; private set; }
-    public int stagesCount { get; private set; }
+    public int CurStage { get; private set; }
+    public int StagesCount { get; private set; }
 
     [SerializeField] private Stage[] _stages;
 
@@ -45,33 +43,23 @@ public class GameManager : MonoBehaviour
         {
             Instance = this;
         }
-        curStage = 0;
-        stagesCount = stages.GetLength(0);
-        onStartedGame.AddListener(StartGame);
-        onFinishedGame.AddListener(FinishGame);
+        CurStage = 0;
+        StagesCount = Stages.GetLength(0);
+        OnStartedGame.AddListener(StartGame);
     }
 
     public void NextStage()
     {
-        ++curStage;
-        if (curStage == stagesCount)
+        ++CurStage;
+        if (CurStage == StagesCount)
         {
-            onFinishedGame.Invoke();
+            OnFinishedGame.Invoke();
             return;
         }
     }
 
     private void StartGame()
     {
-        InputManager.Instance.onTap.RemoveListener(onStartedGame.Invoke);
-        record = SaveManager.Instance.LoadRecord();
-    }
-
-    private void FinishGame()
-    {
-        if (TimeManager.Instance.time < record)
-        {
-            SaveManager.Instance.SaveRecord(TimeManager.Instance.time);
-        }
+        _inputManager.onTap.RemoveListener(OnStartedGame.Invoke);
     }
 }

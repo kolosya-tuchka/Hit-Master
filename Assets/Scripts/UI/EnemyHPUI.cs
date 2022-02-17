@@ -5,12 +5,12 @@ using UnityEngine.UI;
 
 public class EnemyHPUI : MonoBehaviour
 {
-    [SerializeField] private Enemy enemy;
-    [SerializeField] private Image bar;
+    [SerializeField] private Enemy _enemy;
+    [SerializeField] private Image _bar;
 
     private void Update()
     {
-        bar.fillAmount = enemy.healpoints / enemy.maxHealpoints;
+        _bar.fillAmount = _enemy.HealPoints / _enemy.MaxHealPoints;
         transform.LookAt(Camera.main.transform);
     }
 }

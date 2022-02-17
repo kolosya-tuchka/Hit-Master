@@ -6,15 +6,16 @@ using TMPro;
 
 public class ResultsUI : MonoBehaviour
 {
-    [SerializeField] private TextMeshProUGUI results;
-    [SerializeField] private GameObject newRecordMessage;
+    [SerializeField] private TextMeshProUGUI _results;
+    [SerializeField] private GameObject _newRecordMessage;
+    [SerializeField] private Timer _timer;
 
     private void Start()
     {
-        results.text = "Your time: " + TimeManager.FormatTime(TimeManager.Instance.time);
-        if (TimeManager.Instance.time < GameManager.Instance.record)
+        _results.text = "Your time: " + Timer.FormatTime(_timer.Time);
+        if (_timer.Time < _timer.RecordTime)
         {
-            newRecordMessage.SetActive(true);
+            _newRecordMessage.SetActive(true);
         }
     }
 

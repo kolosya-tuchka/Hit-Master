@@ -10,8 +10,8 @@ public class InterfaceManager : MonoBehaviour
     private void Start()
     {
         ShowMenu();
-        GameManager.Instance.onStartedGame.AddListener(ShowGameUI);
-        GameManager.Instance.onFinishedGame.AddListener(ShowFinishUI);
+        GameManager.Instance.OnStartedGame.AddListener(ShowGameUI);
+        GameManager.Instance.OnFinishedGame.AddListener(ShowFinishUI);
     }
 
     private void ShowMenu()

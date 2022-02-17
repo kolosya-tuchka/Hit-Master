@@ -1,42 +1,34 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
-
-interface IEnemy
-{
-    void TakeDamage(float damage);
-    void Die();
-}
 
 public class Enemy : MonoBehaviour, IEnemy
 {
-    public float maxHealpoints
+    public float MaxHealPoints
     {
         get
         {
-            return _maxHealpoints;
+            return maxHealPoints;
         }
         protected set
         {
-            _maxHealpoints = value;
+            maxHealPoints = value;
         }
     }
 
-    public float healpoints { get; private set; }
-    [SerializeField] protected float _maxHealpoints;
+    public float HealPoints { get; private set; }
+    [SerializeField] protected float maxHealPoints;
     [SerializeField] protected Collider enemyCollider;
     [SerializeField] protected RagdollController ragdoll;
     [SerializeField] protected Animator enemyAnimator;
 
     private void Start()
     {
-        healpoints = maxHealpoints;
+        HealPoints = MaxHealPoints;
     }
 
     public void TakeDamage(float damage)
     {
-        healpoints -= damage;
-        if (healpoints <= 0)
+        HealPoints -= damage;
+        if (HealPoints <= 0)
         {
             Die();
         }
@@ -45,7 +37,7 @@ public class Enemy : MonoBehaviour, IEnemy
     public virtual void Die()
     {
         GameManager gm = GameManager.Instance;
-        gm.stages[gm.curStage].RemoveEnemy();
+        gm.Stages[gm.CurStage].RemoveEnemy();
         ragdoll.ActivateRagdoll();
         enemyAnimator.enabled = false;
         enemyCollider.enabled = false;

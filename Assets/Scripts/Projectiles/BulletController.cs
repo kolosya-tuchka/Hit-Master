@@ -4,27 +4,27 @@ using UnityEngine;
 
 public class BulletController : MonoBehaviour
 {
-    [SerializeField] private Bullet bullet;
+    [SerializeField] private Bullet _bullet;
 
     private void ActivateBullet()
     {
-        bullet.rb.velocity = transform.forward * bullet.speed;
+        _bullet.Rb.velocity = transform.forward * _bullet.Speed;
         StartCoroutine(Deactivation());
     }
 
     private IEnumerator Deactivation()
     {
         yield return new WaitForSeconds(3);
-        bullet.pool.DeactivateBullet(bullet);
+        _bullet.Pool.DeactivateBullet(_bullet);
     }
 
     private void OnTriggerEnter(Collider other)
     {
         if (other.gameObject.CompareTag("Enemy"))
         {
-            other.gameObject.GetComponent<IEnemy>().TakeDamage(bullet.damage);
+            other.gameObject.GetComponent<IEnemy>().TakeDamage(_bullet.Damage);
         }
-        bullet.pool.DeactivateBullet(bullet);
+        _bullet.Pool.DeactivateBullet(_bullet);
     }
 
     private void OnEnable()

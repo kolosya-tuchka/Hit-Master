@@ -1,10 +1,8 @@
 using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
-public class PlayerShooting : MonoBehaviour
+public class PlayerShootingState : PlayerState
 {
-    [SerializeField] private Player player;
     [SerializeField] private Transform bulletSpawnPoint;
     [SerializeField] private BulletPool bulletPool;
 
@@ -13,11 +11,11 @@ public class PlayerShooting : MonoBehaviour
 
     private bool canShot, isReloaded;
 
-    private void Start()
+    public override void OnStart()
     {
         isReloaded = true;
+        _player.inputManager.onTap.AddListener(Shot);
         DisableShooting();
-        InputManager.Instance.onTap.AddListener(Shot);
     }
 
     private void Shot()
@@ -47,14 +45,27 @@ public class PlayerShooting : MonoBehaviour
     private void DisableShooting()
     {
         canShot = false;
-        GameManager gm = GameManager.Instance;
-        if (gm.curStage < gm.stagesCount) gm.stages[gm.curStage].onStartedStage.AddListener(EnableShooting);
     }
 
     private void EnableShooting()
     {
         canShot = true;
+    }
+
+    public override void Enter()
+    {
+        EnableShooting();
+        
         GameManager gm = GameManager.Instance;
-        gm.stages[gm.curStage].onCompletedStage.AddListener(DisableShooting);
+        gm.Stages[gm.CurStage].OnStartedStage.Invoke();
+        if (gm.CurStage != gm.StagesCount - 1)
+        {
+            gm.Stages[gm.CurStage].OnCompletedStage.AddListener(() => _stateMachine.SwitchState<PlayerMovingState>());
+        }
+    }
+
+    public override void Exit()
+    {
+        DisableShooting();
     }
 }

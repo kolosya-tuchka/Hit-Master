@@ -5,33 +5,33 @@ using UnityEngine.UI;
 
 public class ProgressBarUI : MonoBehaviour
 {
-    [SerializeField] private Image bar;
-    private GameManager gm;
+    [SerializeField] private Image _bar;
+    private GameManager _gameManager;
 
     private void Start()
     {
-        gm = GameManager.Instance;
+        _gameManager = GameManager.Instance;
         UpdateBar();
     }
 
     private void UpdateBar()
     {
-        if (gm.curStage == gm.stagesCount) return;
+        if (_gameManager.CurStage == _gameManager.StagesCount) return;
 
-        StartCoroutine(IUpdateBar());
-        gm.stages[gm.curStage].onCompletedStage.AddListener(UpdateBar);
+        StartCoroutine(UpdateBarCor());
+        _gameManager.Stages[_gameManager.CurStage].OnCompletedStage.AddListener(UpdateBar);
     }
 
-    private IEnumerator IUpdateBar()
+    private IEnumerator UpdateBarCor()
     {
         float time = 1;
-        float target = (float)gm.curStage / (float)gm.stagesCount;
-        while (target - bar.fillAmount > 0.005f)
+        float target = (float)_gameManager.CurStage / (float)_gameManager.StagesCount;
+        while (target - _bar.fillAmount > 0.005f)
         {
-            bar.fillAmount += ((target - bar.fillAmount) / time * Time.deltaTime);
+            _bar.fillAmount += ((target - _bar.fillAmount) / time * Time.deltaTime);
             yield return null;
         }
-        bar.fillAmount = target;
+        _bar.fillAmount = target;
     }
 
 }
